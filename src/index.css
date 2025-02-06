@@ -1,0 +1,10 @@
+@import "tailwindcss";
+:root{
+  background: #2b2b2b;
+}
+.box{
+  width: 300px;
+  height: 300px;
+  border-radius: 100%;
+  background: yellow;
+}
