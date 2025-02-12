@@ -32,9 +32,9 @@ const ArtistPage = () => {
       {/* Botón de Volver */}
       <button
         onClick={handleBackClick}
-        className="absolute top-4 left-4 z-50 text-white bg-black bg-opacity-50 px-4 py-2 rounded-full"
+        className="absolute cursor-pointer top-4 left-4 z-50 text-white bg-black bg-opacity-50 px-4 py-2"
       >
-        Volver atrás
+        Go back
       </button>
 
       {/* Contenedor de imagen y slider */}
@@ -74,8 +74,8 @@ const ArtistPage = () => {
 
         {/* Flechas de navegación abajo a la derecha */}
         <div className="absolute bottom-6 right-6 flex gap-4 z-50">
-          <button className="custom-prev bg-black bg-opacity-50 text-white p-2 rounded-full">←</button>
-          <button className="custom-next bg-black bg-opacity-50 text-white p-2 rounded-full">→</button>
+          <button className="custom-prev cursor-pointer bg-white bg-opacity-50 text-black p-2 border-2">←</button>
+          <button className="custom-next cursor-pointer bg-white bg-opacity-50 text-black p-2 border-2">→</button>
         </div>
       </div>
 

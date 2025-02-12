@@ -1,4 +1,5 @@
 @import "tailwindcss";
 html {
-    font-family: Karla, system-ui, sans-serif;
+  font-family: "Host Grotesk", serif;
+  scroll-behavior: smooth;
   }
