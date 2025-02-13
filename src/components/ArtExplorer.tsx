@@ -6,42 +6,60 @@ import { motion } from "framer-motion";
 import Header from './Header';
 import transition from '../transition';
 
+const validateImage = async (imageUrl: string) => {
+  try {
+    const response = await fetch(imageUrl, { method: "HEAD" });
+    return response.ok;
+  } catch {
+    return false;
+  }
+};
+
 const useArtistsWithArtwork = () => {
-  return useQuery<ApiResponse, Error, Artist[]>({
+  return useQuery<Artist[]>({
     queryKey: ["artists"],
-    queryFn: async () => {
+    queryFn: async (): Promise<Artist[]> => {
       const response = await fetch(
         `https://api.artic.edu/api/v1/artworks/search?q=rating:1&fields=id,title,artist_display,image_id,thumbnail&limit=100`
       );
       if (!response.ok) throw new Error("Error al obtener artworks");
-      return response.json();
-    },
-    select: (data: ApiResponse): Artist[] => {
+      const data: ApiResponse = await response.json();
+
       const artistsMap = new Map<string, Artist>();
-      
+      const validationPromises: Promise<void>[] = [];
+
       data.data.forEach((artwork) => {
-        if (
-          artwork.artist_display && 
-          !artistsMap.has(artwork.artist_display) && 
-          artwork.thumbnail && 
-          artwork.thumbnail.lqip
-        ) {
-          artistsMap.set(artwork.artist_display, {
-            name: artwork.artist_display.toUpperCase(),
-            representativeWork: {
-              title: artwork.title,
-              imageUrl: `https://www.artic.edu/iiif/2/${artwork.image_id}/full/843,/0/default.jpg`
+        if (!artwork.artist_display || artistsMap.has(artwork.artist_display)) {
+          return;
+        }
+
+        if (artwork.image_id) {
+          const imageUrl = `https://www.artic.edu/iiif/2/${artwork.image_id}/full/843,/0/default.jpg`;
+
+          const validationPromise = validateImage(imageUrl).then((isValid) => {
+            if (isValid) {
+              artistsMap.set(artwork.artist_display, {
+                name: artwork.artist_display.toUpperCase(),
+                representativeWork: {
+                  title: artwork.title,
+                  imageUrl: imageUrl,
+                },
+              });
             }
           });
+
+          validationPromises.push(validationPromise);
         }
       });
-      
-      return Array.from(artistsMap.values())
-        .filter(artist => artist.representativeWork)
-        .sort((a, b) => a.name.localeCompare(b.name));
+
+      await Promise.all(validationPromises); // Esperamos que todas las validaciones terminen
+
+      return Array.from(artistsMap.values()).sort((a, b) => a.name.localeCompare(b.name));
     },
   });
 };
+
+
 
 interface Artwork {
   id: number;
@@ -134,6 +152,7 @@ const ArtExplorer = () => {
                   alt={hoveredArtist.representativeWork.title}
                   className="max-h-[60vh] max-w-full object-contain mx-auto rounded-lg shadow-lg"
                   layoutId="shared-image"
+                  onError={(e) => (e.currentTarget.style.display = "none")}
                 />
               </motion.div>
               <motion.p 
