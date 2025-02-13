@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import "swiper/css";
 import "swiper/css/navigation";
+import Header from "./Header";
 
 const getImageUrl = (imageId?: string) => {
   return imageId
@@ -20,7 +21,7 @@ const ArtistPage = () => {
 
   const [activeIndex, setActiveIndex] = useState(0); // Estado para trackear el slide actual
 
-  if (isLoading) return <p>Cargando obras...</p>;
+  if (isLoading) return <p>Loading artworks...</p>;
   if (error instanceof Error) return <p>Error: {error.message}</p>;
 
   const handleBackClick = () => {
@@ -28,16 +29,17 @@ const ArtistPage = () => {
   };
 
   return (
-    <div className="relative w-full h-screen flex flex-col md:flex-row">
+    <>
+      <Header position='right'/>
+      <div className="relative w-full h-screen flex flex-col md:flex-row bg-stone-100">
       {/* Botón de Volver */}
       <button
         onClick={handleBackClick}
-        className="absolute cursor-pointer top-4 left-4 z-50 text-white bg-black bg-opacity-50 px-4 py-2"
+        className="absolute cursor-pointer top-4 left-4 z-50 text-white bg-black bg-opacity-50 px-4 py-2 transition-all duration-300 ease-in-out  hover:text-black hover:bg-white"
       >
         Go back
       </button>
 
-      {/* Contenedor de imagen y slider */}
       <div className="relative w-full md:w-3/5 h-[70vh] md:h-full">
         <Swiper
           spaceBetween={0}
@@ -47,9 +49,9 @@ const ArtistPage = () => {
           speed={800}
           modules={[Autoplay, Navigation]}
           className="h-full"
-          onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)} // Detecta cambio de slide
+          onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)} 
         >
-          {artworks?.map((art, index) => (
+          {artworks?.map((art) => (
             <SwiperSlide key={art.id} className="h-full">
               <motion.img
                 src={getImageUrl(art.image_id)}
@@ -59,9 +61,8 @@ const ArtistPage = () => {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1 }}
               />
-              {/* Título sobre la imagen */}
               <motion.div
-                className="absolute bottom-6 left-6 bg-black bg-opacity-50 text-white px-4 py-2 rounded"
+                className="absolute max-w-[60%] bottom-6 left-6 bg-black bg-opacity-50 text-white px-4 py-2 rounded"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.3 }}
@@ -72,14 +73,13 @@ const ArtistPage = () => {
           ))}
         </Swiper>
 
-        {/* Flechas de navegación abajo a la derecha */}
         <div className="absolute bottom-6 right-6 flex gap-4 z-50">
-          <button className="custom-prev cursor-pointer bg-white bg-opacity-50 text-black p-2 border-2">←</button>
-          <button className="custom-next cursor-pointer bg-white bg-opacity-50 text-black p-2 border-2">→</button>
+          <button className="custom-prev cursor-pointer bg-stone-100 bg-opacity-50 text-black p-2 border-2 transition-all duration-300 ease-in-out hover:bg-black hover:text-white">←</button>
+          <button className="custom-next cursor-pointer bg-stone-100 bg-opacity-50 text-black p-2 border-2 transition-all duration-300 ease-in-out hover:bg-black hover:text-white">→</button>
         </div>
       </div>
 
-      {/* Contenedor de información - Ahora cambia con cada imagen */}
+    
       <div className="w-full md:w-2/5 bg-white p-8 flex flex-col justify-center">
         {artworks?.[activeIndex] && (
           <>
@@ -123,6 +123,8 @@ const ArtistPage = () => {
         )}
       </div>
     </div>
+    </>
+    
   );
 };
 

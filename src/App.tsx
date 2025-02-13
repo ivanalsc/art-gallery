@@ -3,20 +3,14 @@ import "./index.css";
 import ArtExplorer from "./components/ArtExplorer";
 import ArtistPage from "./components/ArtistPage";
 
-
-
 function App() {
   return (
     <BrowserRouter>
-
-      <Routes>
-     
-      <Route index element={<ArtExplorer />} />
+        <Routes location={location} key={location.pathname}>
+          <Route index element={<ArtExplorer />} />
           <Route path="/artist/:artistName" element={<ArtistPage />} />
-      </Routes>
-
+        </Routes>
     </BrowserRouter>
-   
   );
 }
 
