@@ -1,13 +1,37 @@
 @import "tailwindcss";
+
 html {
   font-family: "Host Grotesk", serif;
   scroll-behavior: smooth;
-  }
-  .scroll-bar {
-    scrollbar-width: none;  /* Firefox */
-    -ms-overflow-style: none;  /* IE and Edge */
-  }
-  
-  .scroll-bar::-webkit-scrollbar {
-    display: none;  /* Chrome, Safari, Opera */
-  }
+}
+
+.scroll-bar {
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+}
+
+.scroll-bar::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera */
+}
+
+.slide-in{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: #0f0f0f;
+  transform-origin: bottom;
+}
+.slide-out{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: #0f0f0f;
+  transform-origin: top;
+}

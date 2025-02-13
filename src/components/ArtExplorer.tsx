@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import Header from './Header';
+import transition from '../transition';
 
 const useArtistsWithArtwork = () => {
   return useQuery<ApiResponse, Error, Artist[]>({
@@ -225,4 +226,4 @@ const ArtExplorer = () => {
   );
 };
 
-export default ArtExplorer;
+export default transition(ArtExplorer);

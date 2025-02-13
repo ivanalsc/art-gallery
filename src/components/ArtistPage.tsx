@@ -7,6 +7,7 @@ import { useState } from "react";
 import "swiper/css";
 import "swiper/css/navigation";
 import Header from "./Header";
+import transition from "../transition";
 
 const getImageUrl = (imageId?: string) => {
   return imageId
@@ -128,4 +129,4 @@ const ArtistPage = () => {
   );
 };
 
-export default ArtistPage;
+export default transition(ArtistPage);
