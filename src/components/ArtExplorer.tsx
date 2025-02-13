@@ -164,7 +164,7 @@ const ArtExplorer = () => {
         initial={{ opacity: 0, x: 50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 1 }}
-        className="w-2/2 p-8 overflow-y-auto overflow-x-hidden md:w-1/2"
+        className="w-2/2 p-8 overflow-y-auto overflow-x-hidden md:w-1/2 scroll-bar"
         ref={scrollRef}
       >
         {isLoading ? (
