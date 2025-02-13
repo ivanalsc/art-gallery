@@ -9,11 +9,7 @@ import "swiper/css/navigation";
 import Header from "./Header";
 import transition from "../transition";
 
-const getImageUrl = (imageId?: string) => {
-  return imageId
-    ? `https://www.artic.edu/iiif/2/${imageId}/full/843,/0/default.jpg`
-    : "https://via.placeholder.com/843x600?text=No+Image";
-};
+
 
 const ArtistPage = () => {
   const { artistName } = useParams();

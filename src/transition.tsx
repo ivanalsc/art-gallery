@@ -1,9 +1,7 @@
 import {motion} from 'framer-motion';
 import { ComponentType } from 'react';
 
-interface TransitionProps {
-    OgComponent: ComponentType;
-}
+
 
 const transition = (OgComponent: ComponentType): ComponentType => {
     return () => (
